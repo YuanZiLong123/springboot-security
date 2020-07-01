@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "登录控制器")
-public class LoginController {
+public class LoginController  {
 
 
     @Autowired
@@ -30,6 +31,15 @@ public class LoginController {
     }
     )
     public Result login(String account ,String password){
+        Result result = new Result();
+        System.out.println(account);
+        System.out.println(password);
+        return result;
+    }
+
+    @GetMapping("/loginOut")
+    @ApiOperation("登录")
+    public Result loginOut(){
         Result result = new Result();
 
         return result;

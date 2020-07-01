@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * 访问策略的管理器
  * @author admin
  * @date 2020-06-28 17:30
  */
