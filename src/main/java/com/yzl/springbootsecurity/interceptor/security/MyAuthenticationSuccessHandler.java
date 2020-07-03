@@ -29,10 +29,10 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
         result.setCode(Result.RESULT_SUCCESS);
         result.setMessage("权限认证成功");
-
+        result.setData(authentication.getPrincipal());
         PrintWriter printWriter = response.getWriter();
 
-        printWriter.write(JSON.toJSONString(request));
+        printWriter.write(JSON.toJSONString(result));
 
         printWriter.flush();
         printWriter.close();

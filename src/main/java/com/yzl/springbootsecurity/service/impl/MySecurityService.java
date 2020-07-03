@@ -1,5 +1,7 @@
 package com.yzl.springbootsecurity.service.impl;
 
+import com.yzl.springbootsecurity.service.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,6 +24,8 @@ import java.util.Collection;
 public class MySecurityService implements UserDetailsService
  {
 
+     @Autowired
+     private ICustomerService customerService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

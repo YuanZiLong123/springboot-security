@@ -26,23 +26,16 @@ public class LoginController  {
     @PostMapping("/login")
     @ApiOperation("登录")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "account",value = "考生账号"),
-            @ApiImplicitParam(name = "password",value = "考生密码")
+            @ApiImplicitParam(name = "account",value = "账号"),
+            @ApiImplicitParam(name = "password",value = "密码")
     }
     )
-    public Result login(String account ,String password){
-        Result result = new Result();
-        System.out.println(account);
-        System.out.println(password);
-        return result;
+    public void login(String account ,String password){
     }
 
     @GetMapping("/loginOut")
     @ApiOperation("登录")
-    public Result loginOut(){
-        Result result = new Result();
-
-        return result;
+    public void loginOut(){
     }
 
 }
