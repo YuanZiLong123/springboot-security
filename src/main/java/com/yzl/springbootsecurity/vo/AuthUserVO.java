@@ -1,28 +1,51 @@
 package com.yzl.springbootsecurity.vo;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
+import org.springframework.util.DigestUtils;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * @author admin
  * @date 2020-07-02 15:44
  */
 public class AuthUserVO implements UserDetails {
+
+    private String password;
+    private  String username;
+    private  Set<GrantedAuthority> authorities;
+    private  boolean accountNonExpired;
+    private  boolean accountNonLocked;
+    private  boolean credentialsNonExpired;
+    private  boolean enabled;
+
+    public AuthUserVO() {
+    }
+
+    public AuthUserVO(String password, String username, Set<GrantedAuthority> authorities) {
+        this.password = password;
+        this.username = username;
+        this.authorities = authorities;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return DigestUtils.md5DigestAsHex(this.password.getBytes()) ;
     }
+
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override

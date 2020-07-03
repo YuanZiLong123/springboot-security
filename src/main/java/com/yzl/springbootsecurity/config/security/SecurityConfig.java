@@ -27,8 +27,8 @@ import javax.sql.DataSource;
  * @date 2020-06-23 16:12
  */
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -141,7 +141,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 将 DataSource 设置到 PersistentTokenRepository
         persistentTokenRepository.setDataSource(dataSource);
         // 第一次启动的时候自动建表（可以不用这句话，自己手动建表，源码中有语句的）
-        // persistentTokenRepository.setCreateTableOnStartup(true);
+         persistentTokenRepository.setCreateTableOnStartup(true);
         return persistentTokenRepository;
     }
 

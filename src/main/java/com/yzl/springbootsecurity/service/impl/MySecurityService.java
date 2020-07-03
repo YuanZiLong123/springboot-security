@@ -1,5 +1,7 @@
 package com.yzl.springbootsecurity.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yzl.springbootsecurity.entity.Customer;
 import com.yzl.springbootsecurity.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +32,12 @@ public class MySecurityService implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+        QueryWrapper<Customer> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Customer::getCustomerAccount,s );
+        Customer customer = customerService.getOne(queryWrapper);
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        return new User(s, new BCryptPasswordEncoder().encode("123456"), authorities);
+        return new User(customer.getCustomerAccount(), new BCryptPasswordEncoder().encode(customer.getCustomerPassword()), authorities);
 
     }
 }
