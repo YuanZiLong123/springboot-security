@@ -25,4 +25,10 @@
         where menu_id = #{menuId}
     </select>
 
+    <select id="selectRoleNameByUserId" resultType="java.lang.String">
+
+        select  role_name from role left  join relation_cust_role rcr on role.role_id = rcr.role_id
+        where cust_id = #{userId}
+    </select>
+
 </mapper>

@@ -28,7 +28,7 @@ public class Customer extends Model<Customer> {
 
     @ApiModelProperty(value = "用户id")
     @TableId(value = "customer_id", type = IdType.AUTO)
-    private Integer customerId;
+    private Long customerId;
 
     @ApiModelProperty(value = "用户账号")
     private String customerAccount;

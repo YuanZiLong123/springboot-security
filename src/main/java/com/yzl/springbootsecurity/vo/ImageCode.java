@@ -24,6 +24,11 @@ public class ImageCode {
         this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }
 
+    public ImageCode(String code, int expireIn) {
+        this.code = code;
+        this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
+    }
+
     public boolean isExpried() {
         return LocalDateTime.now().isAfter(getExpireTime());
     }

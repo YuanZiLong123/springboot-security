@@ -4,7 +4,6 @@ import static com.yzl.springbootsecurity.config.constants.MyConstants.SESSION_KE
 import com.yzl.springbootsecurity.exception.MyException;
 import com.yzl.springbootsecurity.interceptor.security.MyAuthenticationFailureHandler;
 import com.yzl.springbootsecurity.vo.ImageCode;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;

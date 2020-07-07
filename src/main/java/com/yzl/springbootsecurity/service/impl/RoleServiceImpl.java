@@ -18,8 +18,19 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
+
+
+
     @Override
     public List<String> selectRoleNameByMenuId(Long menuId) {
         return baseMapper.selectRoleNameByMenuId(menuId);
+    }
+
+    @Override
+    public List<String> selectRoleNameByUserId(Long userId) {
+
+
+
+        return baseMapper.selectRoleNameByUserId(userId);
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yzl.springbootsecurity.util.Result;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
  * @author admin
  * @date 2020-06-28 15:10
  */
-
+@Component
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
 
 

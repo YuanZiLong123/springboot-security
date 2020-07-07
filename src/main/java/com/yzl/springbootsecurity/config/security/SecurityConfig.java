@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,14 +23,15 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 /**
  * @author admin
  * @date 2020-06-23 16:12
  */
 
-//@Configuration
-//@EnableWebSecurity
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -48,6 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+
 /**
  *@Description: 配置放行的资源
  *@Param:
@@ -72,6 +77,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @Author: yzl
      * @date: 2020/6/28
      */
+
+    @Bean
+    MyAuthenticationProvider myAuthenticationProvider() {
+        MyAuthenticationProvider myAuthenticationProvider = new MyAuthenticationProvider();
+        myAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        myAuthenticationProvider.setUserDetailsService(mySecurityService);
+        return myAuthenticationProvider;
+    }
+
+    @Override
+    @Bean
+    protected AuthenticationManager authenticationManager() throws Exception {
+        ProviderManager manager = new ProviderManager(Arrays.asList(myAuthenticationProvider()));
+        return manager;
+    }
 
 
     @Bean
@@ -99,7 +119,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "/img-code/login", "/img-code/getCode")
                 .permitAll()
@@ -141,7 +161,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 将 DataSource 设置到 PersistentTokenRepository
         persistentTokenRepository.setDataSource(dataSource);
         // 第一次启动的时候自动建表（可以不用这句话，自己手动建表，源码中有语句的）
-         persistentTokenRepository.setCreateTableOnStartup(true);
+         //persistentTokenRepository.setCreateTableOnStartup(true);
         return persistentTokenRepository;
     }
 

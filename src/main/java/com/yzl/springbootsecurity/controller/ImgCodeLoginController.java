@@ -1,11 +1,15 @@
 package com.yzl.springbootsecurity.controller;
 
+import com.google.code.kaptcha.Producer;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.code.kaptcha.util.Config;
 import com.yzl.springbootsecurity.config.constants.MyConstants;
 import com.yzl.springbootsecurity.vo.ImageCode;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -51,12 +57,39 @@ public class ImgCodeLoginController
     public void login(String account ,String password,String code){
     }
 
+
+    @Bean
+    Producer verifyCode() {
+        Properties properties = new Properties();
+        properties.setProperty("kaptcha.image.width", "150");
+        properties.setProperty("kaptcha.image.height", "50");
+        properties.setProperty("kaptcha.textproducer.char.string", "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        properties.setProperty("kaptcha.textproducer.char.length", "4");
+        Config config = new Config(properties);
+        DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
+        defaultKaptcha.setConfig(config);
+        return defaultKaptcha;
+    }
+
+    @Autowired
+    Producer producer;
+
+
     @GetMapping("/getCode")
     @ApiOperation(value = "获取验证码")
     public void getCode(HttpServletResponse response, HttpServletRequest request){
 
-
-
+        response.setContentType("image/jpeg");
+        String text = producer.createText();
+        ImageCode imageCode = new ImageCode(text, 5*60);
+        sessionStrategy.setAttribute(new ServletWebRequest(request), MyConstants.SESSION_KEY, imageCode);
+        BufferedImage image = producer.createImage(text);
+        try(ServletOutputStream out = response.getOutputStream()) {
+            ImageIO.write(image, "jpg", out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+/*
         int width = 70;
         int height = 32;
         //create the image
@@ -97,7 +130,7 @@ public class ImgCodeLoginController
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void removeAttrbute(final HttpSession session, final String attrName,final Integer minute) {
