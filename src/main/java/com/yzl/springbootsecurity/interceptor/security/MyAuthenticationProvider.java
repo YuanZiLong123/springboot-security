@@ -37,6 +37,9 @@ public class MyAuthenticationProvider extends DaoAuthenticationProvider {
         HttpServletRequest req = ((ServletRequestAttributes) requestAttributes).getRequest();
         String code = req.getParameter("code");
 
+
+
+
         ImageCode codeInSession = (ImageCode) sessionStrategy.getAttribute(requestAttributes, SESSION_KEY);
         // 2. 校验空值情况
         if(StringUtils.isEmpty(code)) {

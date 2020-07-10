@@ -9,7 +9,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Objects;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component("validateCodeFilter")
-public class ValidateCodeFilter extends OncePerRequestFilter implements Filter {
+public class ValidateCodeFilter extends OncePerRequestFilter{
     /**
      * 验证码校验失败处理器
      */

@@ -20,7 +20,6 @@ import java.util.Iterator;
 
 @Component
 public class MyAccessDecisionManager implements AccessDecisionManager {
-
 /**
      * @Author: Galen
      * @Description: 取当前用户的权限与这次请求的这个url需要的权限作对比，决定是否放行
