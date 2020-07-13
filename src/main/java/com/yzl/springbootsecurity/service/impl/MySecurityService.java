@@ -5,6 +5,7 @@ import com.yzl.springbootsecurity.entity.Customer;
 import com.yzl.springbootsecurity.service.ICustomerService;
 import com.yzl.springbootsecurity.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author admin
@@ -28,6 +31,9 @@ import java.util.List;
 @Transactional
 public class MySecurityService implements UserDetailsService
  {
+
+     @Autowired
+     private RedisTemplate<String,String> redisTemplate;
 
      @Autowired
      private ICustomerService customerService;
@@ -42,6 +48,12 @@ public class MySecurityService implements UserDetailsService
         QueryWrapper<Customer> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(Customer::getCustomerAccount,s );
         Customer customer = customerService.getOne(queryWrapper);
+
+        String token = UUID.randomUUID()+"#"+customer.getCustomerId();
+
+        redisTemplate.opsForValue().set(token, String.valueOf(customer.getCustomerId()),30 , TimeUnit.MINUTES);
+
+
         List<String> roleNames  = roleService.selectRoleNameByUserId(customer.getCustomerId());
 
         roleNames.forEach(e->{

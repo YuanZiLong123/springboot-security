@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component("validateCodeFilter")
-public class ValidateCodeFilter extends OncePerRequestFilter{
+public class ValidateCodeFilter extends OncePerRequestFilter {
     /**
      * 验证码校验失败处理器
      */

@@ -173,6 +173,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //                })
                 .accessDeniedHandler(deniedHandler)
+                .and()
+                .sessionManagement()
+                .maximumSessions(1);
                 ;
     }
 

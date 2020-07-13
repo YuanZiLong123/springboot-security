@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import com.yzl.springbootsecurity.config.constants.MyConstants;
+import com.yzl.springbootsecurity.util.Result;
 import com.yzl.springbootsecurity.vo.ImageCode;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -54,7 +55,14 @@ public class ImgCodeLoginController
             @ApiImplicitParam(name = "code",value = "验证码")
     }
     )
-    public void login(String account ,String password,String code){
+    public Result login(String account , String password, String code){
+
+        Result result = new Result();
+
+        result.setMessage("没有拦截器拦截");
+
+        return result;
+
     }
 
 

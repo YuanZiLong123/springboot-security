@@ -22,13 +22,15 @@ public class AuthUserVO implements UserDetails {
     private  boolean credentialsNonExpired;
     private  boolean enabled;
 
+    private String token;
     public AuthUserVO() {
     }
 
-    public AuthUserVO(String password, String username, Set<GrantedAuthority> authorities) {
+    public AuthUserVO(String password, String username, Set<GrantedAuthority> authorities,String token) {
         this.password = password;
         this.username = username;
         this.authorities = authorities;
+        this.token = token;
     }
 
 
@@ -66,5 +68,13 @@ public class AuthUserVO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

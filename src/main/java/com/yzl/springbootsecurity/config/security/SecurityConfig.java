@@ -64,13 +64,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
  *@date: 2020/6/28*/
 
 
-   /* @Override
+    @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 // 给 swagger 放行；不需要权限能访问的资源
-                .antMatchers("/doc.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/configuration/ui", "/configuration/security");
+                .antMatchers("/","/doc.html", "/swagger-resources/**", "/images/**", "/webjars/**", "/v2/api-docs", "/img-code/getCode");
     }
-*/
 
 
     /**
@@ -119,10 +118,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @Author: yzl
      * @date: 2020/6/28
      */
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
+
         http
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(new MyTokenFilter(redisTemplate),UsernamePasswordAuthenticationFilter.class )
                 .authorizeRequests()
                 .antMatchers("/", "/img-code/login", "/img-code/getCode")
                 .permitAll()
@@ -151,9 +155,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler(new MyAccessDeniedHandler())
                 .and()
-                .rememberMe()                                   // 记住我配置
-                .tokenRepository(persistentTokenRepository())  // 配置数据库源
+                // 记住我配置
+                .rememberMe()
+                .key("security")
+                // 配置数据库源
+                .tokenRepository(persistentTokenRepository())
+                //token失效时间  单位为秒
                 .tokenValiditySeconds(3600)
+                .and()
+                //session 管理机制
+                .sessionManagement()
+                //session 当前用户单点登录
+                .maximumSessions(1);
                 ;
 
     }
